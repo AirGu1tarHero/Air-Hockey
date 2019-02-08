@@ -18,9 +18,13 @@ permission notice located at: http://arcade.academy
 import arcade
 from graphics import *
 
+# Set game constants
 SCREEN_WIDTH = 1000
 SCREEN_HEIGHT = 600
 SCREEN_TITLE = "AIR HOCKEY"
+
+PUCK_RADIUS = 15
+STRIKER_RADIUS = 30
 
 
 class Game(arcade.Window):
@@ -29,9 +33,16 @@ class Game(arcade.Window):
     def __init__(self, width, height, title):
         super().__init__(width, height, title)
 
+        # Set mouse pointer to disappear inside the window (white background)
+        self.set_mouse_visible(False)
         arcade.set_background_color(arcade.color.WHITE)
 
-        # Create sprite lists here and set them to None
+        # Create the puck
+        self.puck = Puck(300, 200, PUCK_RADIUS)
+
+        # Create the strikers
+        self.npc_striker = Striker(100, 300, STRIKER_RADIUS)
+        self.player_striker = Striker(900, 300, STRIKER_RADIUS)
 
     def setup(self):
         # Create any sprites and sprite lists here
@@ -45,7 +56,10 @@ class Game(arcade.Window):
         # Draw board
         draw_board()
 
-        # Call draw() on any sprite lists here
+        # Call draw() on puck and strikers
+        self.puck.draw()
+        self.npc_striker.draw()
+        self.player_striker.draw()
 
     def update(self, delta_time):
         """
@@ -68,7 +82,7 @@ class Game(arcade.Window):
 
     def on_mouse_press(self, x, y, button, key_modifiers):
         # Called when the user presses a mouse button
-        pass
+        print(f"You clicked button number: {button}")
 
     def on_mouse_release(self, x, y, button, key_modifiers):
         # Called when the user releases a mouse button

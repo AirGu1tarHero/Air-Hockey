@@ -25,3 +25,37 @@ def draw_board():
         for y in range(100, 501, 400):
             arcade.draw_circle_outline(x, y, 75, arcade.color.RED, 10)
             arcade.draw_circle_filled(x, y, 5, arcade.color.RED)
+
+class Puck:
+    def __init__(self, position_x, position_y, radius):
+        self.position_x = position_x
+        self.position_y = position_y
+        self.radius = radius
+
+    def draw(self):
+        arcade.draw_circle_filled(self.position_x, self.position_y, \
+                                  self.radius, arcade.color.BLACK)
+        arcade.draw_circle_outline(self.position_x, self.position_y, \
+                                  self.radius - 2, arcade.color.WHITE)
+
+class Striker:
+    def __init__(self, position_x, position_y, radius):
+        self.position_x = position_x
+        self.position_y = position_y
+        self.radius = radius
+
+    def draw(self):
+        arcade.draw_circle_filled(self.position_x, self.position_y, \
+                                  self.radius, arcade.color.RED)
+        arcade.draw_circle_outline(self.position_x, self.position_y, \
+                                  self.radius, arcade.color.BLACK, 10)
+        arcade.draw_circle_outline(self.position_x, self.position_y, \
+                                  self.radius / 2, arcade.color.BLACK, 10)
+        arcade.draw_circle_filled(self.position_x, self.position_y, \
+                                  self.radius * 0.8, (0, 0, 0, 20))
+        arcade.draw_circle_filled(self.position_x, self.position_y, \
+                                  self.radius * 0.7, (0, 0, 0, 40))
+        arcade.draw_circle_filled(self.position_x + 3, self.position_y + 4, \
+                                  self.radius * 0.1, (255, 255, 255, 180))
+        arcade.draw_circle_filled(self.position_x + 3, self.position_y + 4, \
+                                  self.radius * 0.05, arcade.color.WHITE)
