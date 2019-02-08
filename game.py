@@ -66,7 +66,15 @@ class Game(arcade.Window):
         All movement and game logic goes here.
         Call update() on any sprite lists that need it.
         """
-        pass
+        if (self.player_striker.position_x <= STRIKER_RADIUS + 700):
+            self.player_striker.position_x = STRIKER_RADIUS + 700
+        elif (self.player_striker.position_x >= SCREEN_WIDTH - STRIKER_RADIUS):
+            self.player_striker.position_x = SCREEN_WIDTH - STRIKER_RADIUS
+
+        if (self.player_striker.position_y <= STRIKER_RADIUS):
+            self.player_striker.position_y = STRIKER_RADIUS
+        elif (self.player_striker.position_y >= SCREEN_HEIGHT - STRIKER_RADIUS):
+            self.player_striker.position_y = SCREEN_HEIGHT - STRIKER_RADIUS
 
     def on_key_press(self, key, key_modifiers):
         # Called whenever a key on the keyboard is pressed
@@ -78,7 +86,9 @@ class Game(arcade.Window):
 
     def on_mouse_motion(self, x, y, delta_x, delta_y):
         # Called whenver the mouse moves
-        pass
+        # Move the center of the player striker to match the mouse x, y
+        self.player_striker.position_x = x
+        self.player_striker.position_y = y
 
     def on_mouse_press(self, x, y, button, key_modifiers):
         # Called when the user presses a mouse button
