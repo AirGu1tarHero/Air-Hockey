@@ -17,15 +17,7 @@ permission notice located at: http://arcade.academy
 """
 import arcade
 from graphics import *
-
-# Set game constants
-SCREEN_WIDTH = 1000
-SCREEN_HEIGHT = 600
-SCREEN_TITLE = "AIR HOCKEY"
-
-PUCK_RADIUS = 15
-STRIKER_RADIUS = 30
-
+# from physics import *
 
 class Game(arcade.Window):
     # Main application class
@@ -38,11 +30,13 @@ class Game(arcade.Window):
         arcade.set_background_color(arcade.color.WHITE)
 
         # Create the puck
-        self.puck = Puck(300, 200, PUCK_RADIUS)
+        self.puck = Puck()
 
         # Create the strikers
-        self.npc_striker = Striker(100, 300, STRIKER_RADIUS)
-        self.player_striker = Striker(900, 300, STRIKER_RADIUS)
+        self.npc_striker = Striker(SCREEN_WIDTH / 10, SCREEN_HEIGHT / 2,\
+                                   STRIKER_RADIUS)
+        self.player_striker = Striker(SCREEN_WIDTH - (SCREEN_WIDTH / 10),\
+                                      SCREEN_HEIGHT / 2, STRIKER_RADIUS)
 
     def setup(self):
         # Create any sprites and sprite lists here
@@ -68,8 +62,8 @@ class Game(arcade.Window):
         self.puck.update()
 
         # Constrain player striker x-pos to own zone (blue line to right edge)
-        if (self.player_striker.position_x <= STRIKER_RADIUS + 700):
-            self.player_striker.position_x = STRIKER_RADIUS + 700
+        if (self.player_striker.position_x <= STRIKER_RADIUS + SCREEN_WIDTH - BLUE_LINE):
+            self.player_striker.position_x = STRIKER_RADIUS + SCREEN_WIDTH - BLUE_LINE
         elif (self.player_striker.position_x >= SCREEN_WIDTH - STRIKER_RADIUS):
             self.player_striker.position_x = SCREEN_WIDTH - STRIKER_RADIUS
 
