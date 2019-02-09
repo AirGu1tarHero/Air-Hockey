@@ -46,7 +46,7 @@ class Game(arcade.Window):
 
     def setup(self):
         # Create any sprites and sprite lists here
-        pass
+        self.puck.drop_puck()
 
     def on_draw(self):
         # Render the screen
@@ -62,19 +62,25 @@ class Game(arcade.Window):
         self.player_striker.draw()
 
     def update(self, delta_time):
-        """
-        All movement and game logic goes here.
-        Call update() on any sprite lists that need it.
-        """
+        # All movement and game logic (updated ~60 fps)
+
+        # Advance puck movement
+        self.puck.update()
+
+        # Constrain player striker x-pos to own zone (blue line to right edge)
         if (self.player_striker.position_x <= STRIKER_RADIUS + 700):
             self.player_striker.position_x = STRIKER_RADIUS + 700
         elif (self.player_striker.position_x >= SCREEN_WIDTH - STRIKER_RADIUS):
             self.player_striker.position_x = SCREEN_WIDTH - STRIKER_RADIUS
 
+        # Constrain player striker y-pos inside the board
         if (self.player_striker.position_y <= STRIKER_RADIUS):
             self.player_striker.position_y = STRIKER_RADIUS
         elif (self.player_striker.position_y >= SCREEN_HEIGHT - STRIKER_RADIUS):
             self.player_striker.position_y = SCREEN_HEIGHT - STRIKER_RADIUS
+
+        # Move NPC striker
+        self.npc_striker.update(self.puck.position_x, self.puck.position_y)
 
     def on_key_press(self, key, key_modifiers):
         # Called whenever a key on the keyboard is pressed
