@@ -15,4 +15,5 @@ clicking the mouse button. The game continues until the player quits via
 the Ctrl-Q or Cmd-Q keys.
 
 This game is submitted as my final project for the Harvard-X CS50 course.
+Please note that Arcade and Pymunk must be installed prior to running the game - "pip install arcade" and "pip install pymunk".
 Please enjoy!
