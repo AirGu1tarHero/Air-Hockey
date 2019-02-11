@@ -18,7 +18,7 @@ DASH_LENGTH = int(LINE_WEIGHT * 2)
 FACEOFF_DOT = int(LINE_WEIGHT / 2)
 
 
-def draw_board():
+def draw_board(npc_score, player_score):
     # Goals
     arcade.draw_circle_outline(-GOAL_OFFSET, SCREEN_HEIGHT / 2, GOAL_RADIUS,
                                arcade.color.BLUE, LINE_WEIGHT)
@@ -68,3 +68,10 @@ def draw_board():
     arcade.draw_polygon_filled(((50, SCREEN_HEIGHT), (0, SCREEN_HEIGHT - 50),
                                 (0, SCREEN_HEIGHT)), arcade.color.BLACK)
     arcade.draw_polygon_filled(((0, 50), (50, 0), (0, 0)), arcade.color.BLACK)
+
+    # Draw score
+    output = f"NPC Score: {npc_score}"
+    arcade.draw_text(output, 400, 550, arcade.color.BLACK, 14)
+
+    output = f"Player Score: {player_score}"
+    arcade.draw_text(output, 600, 550, arcade.color.BLACK, 14)
