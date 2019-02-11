@@ -7,7 +7,6 @@ It is built on top of the 2D physics library Chipmunk.
 
 import arcade
 import pymunk
-import math
 from graphics import *
 from random import randrange
 
@@ -16,7 +15,7 @@ PUCK_MASS = 10
 STRIKER_RADIUS = int(PUCK_RADIUS * 2)
 STRIKER_MASS = 100
 
-# Define three objects for collision handling
+# Define objects for collision handling (reserve for future use)
 collision_types = {"puck" : 1, "striker" : 2, "goal" : 3}
 
 class CircleSprite(arcade.Sprite):
@@ -56,6 +55,7 @@ def physics_space_init(space):
         pymunk.Segment(space.static_body, [0, 50], [50, 0], 0.0)
     ]
 
+    # Set boundary parameters to provide near-maximum bounce
     for line in static_lines:
         line.elasticity = 0.95
     return static_lines
@@ -78,7 +78,6 @@ def create_striker(name, list):
     # Add the striker to the respective sprite list
     sprite = CircleSprite("striker.png", shape)
     list.append(sprite)
-
     return body, shape
 
 
@@ -87,25 +86,28 @@ def create_puck(list):
     body = pymunk.Body(PUCK_MASS, pymunk.inf)
     body.position = SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2
 
+    # Initiate puck velocity in a psuedorandom direction
     dx = randrange(-300, -100)
     dy = randrange(-300, 300)
     body.apply_impulse_at_local_point(pymunk.Vec2d(dx, dy))
 
+    # Define pymunk shape attributes
     shape = pymunk.Circle(body, PUCK_RADIUS)
     shape.elasticity = 0.95
     shape.collision_type = collision_types["puck"]
 
+    # Maintain puck at constant velocity for simplicity
     def constant_velocity(body, gravity, damping, dt):
-        body.velocity = body.velocity.normalized() * 700
+        body.velocity = body.velocity.normalized() * (SCREEN_WIDTH * 0.7)
     body.velocity_func = constant_velocity
 
     sprite = CircleSprite("puck.png", shape)
     list.append(sprite)
-
     return body, shape
 
 
 def move_sprite(list):
+    # Update sprite graphics to track with location of pymunk body
     for sprite in list:
         sprite.center_x = sprite.pymunk_shape.body.position.x
         sprite.center_y = sprite.pymunk_shape.body.position.y

@@ -1,10 +1,16 @@
+"""
+Dedicated file to define game constants and draw the board.
+The entire game will adjust based on the SCREEN WIDTH.
+(Best results when SCREEN WIDTH is between 800 and 1200)
+"""
+
 import arcade
 
 # Set game constants
 SCREEN_TITLE = "AIR HOCKEY"
 SCREEN_WIDTH = 1000
 
-# All board dimensions build off screen width to maintain 16:9 aspect ratio
+# Maintain 16:9 aspect ratio
 SCREEN_HEIGHT = int(SCREEN_WIDTH * 9 / 16)
 
 BLUE_LINE = int(SCREEN_WIDTH * 0.3)
@@ -71,7 +77,9 @@ def draw_board(npc_score, player_score):
 
     # Draw score
     output = f"NPC Score: {npc_score}"
-    arcade.draw_text(output, 400, 550, arcade.color.BLACK, 14)
+    arcade.draw_text(output, SCREEN_WIDTH * 0.35, SCREEN_HEIGHT * 0.95,
+                     arcade.color.BLACK, 14)
 
     output = f"Player Score: {player_score}"
-    arcade.draw_text(output, 600, 550, arcade.color.BLACK, 14)
+    arcade.draw_text(output, SCREEN_WIDTH * 0.55, SCREEN_HEIGHT * 0.95,
+                     arcade.color.BLACK, 14)

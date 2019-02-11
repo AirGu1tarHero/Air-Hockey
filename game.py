@@ -40,11 +40,6 @@ class Game(arcade.Window):
         self.static_lines = physics_space_init(self.space)
         self.space.add(self.static_lines)
 
-        # Initialize sprite lists
-        self.player_striker_list = None
-        self.npc_striker_list = None
-        self.puck_list = None
-
         # Generate sprite lists
         self.player_striker_list = arcade.SpriteList()
         self.npc_striker_list = arcade.SpriteList()
@@ -72,13 +67,17 @@ class Game(arcade.Window):
         draw_board(self.npc_score, self.player_score)
 
         output = "Air Hockey"
-        arcade.draw_text(output, 240, 400, arcade.color.BLACK, 54)
+        arcade.draw_text(output, SCREEN_WIDTH / 3, SCREEN_HEIGHT * 0.7,
+                         arcade.color.BLACK, 50)
 
         output = "Click Mouse to Start"
-        arcade.draw_text(output, 310, 300, arcade.color.BLACK, 24)
+        arcade.draw_text(output, SCREEN_WIDTH * 0.35, SCREEN_HEIGHT * 0.2,
+                         arcade.color.BLACK, 25)
 
         output = "Press <Cmd-Q> to Quit"
-        arcade.draw_text(output, 310, 250, arcade.color.BLACK, 24)
+        arcade.draw_text(output, SCREEN_WIDTH / 3, SCREEN_HEIGHT * 0.1,
+                         arcade.color.BLACK, 25)
+
 
     def draw_game_action(self):
         # Draw board
@@ -94,6 +93,7 @@ class Game(arcade.Window):
         # Render the screen
         arcade.start_render()
 
+        # Draw window based on game state
         if (self.game_state == PAUSED):
             self.draw_game_paused()
         elif (self.game_state == ACTION):
@@ -111,7 +111,7 @@ class Game(arcade.Window):
             px, py = self.puck_body.position.x, self.puck_body.position.y
             sy = self.npc_body.position.y
 
-            # NPC body move logic
+            # NPC striker move logic
             if (px < (SCREEN_WIDTH / 2) and py < sy):
                 self.npc_body.velocity = (0, -(SCREEN_HEIGHT / 2))
             elif (px < SCREEN_WIDTH / 2 and py > sy):
@@ -148,11 +148,13 @@ class Game(arcade.Window):
                 else:
                     move_sprite(self.puck_list)
 
+
     def pause_game(self):
         # Set game state to PAUSE and reset NPC striker
         self.game_state = PAUSED
         self.npc_body.position = (BLUE_LINE / 3, SCREEN_HEIGHT / 2)
         self.npc_body.velocity = (0, 0)
+
 
     def on_mouse_motion(self, x, y, dx, dy):
         # Called whenver the mouse moves while game active
@@ -180,7 +182,7 @@ class Game(arcade.Window):
 
 
 def main():
-    """ Main method """
+    # Main method
     game = Game(SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_TITLE)
     arcade.run()
 
