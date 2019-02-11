@@ -12,7 +12,7 @@ loaded as sprites.
 
 Player controls the right-hand striker with the mouse and serves the puck by
 clicking the mouse button. The game continues until the player quits via
-the <Ctrl-Q> or <Cmd-Q> keys.
+the Ctrl-Q or Cmd-Q keys.
 
 This game is submitted as my final project for the Harvard-X CS50 course.
 Please enjoy!
