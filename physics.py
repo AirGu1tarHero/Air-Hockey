@@ -9,7 +9,12 @@ import arcade
 import pymunk
 import math
 from graphics import *
-from random import randrange as rand
+from random import randrange
+
+PUCK_RADIUS = int(LINE_WEIGHT * 1.5)
+PUCK_MASS = 10
+STRIKER_RADIUS = int(PUCK_RADIUS * 2)
+STRIKER_MASS = 100
 
 # Define three objects for collision handling
 collision_types = {"puck" : 1, "striker" : 2, "goal" : 3}
@@ -55,13 +60,14 @@ def physics_space_init(space):
         line.elasticity = 0.95
     return static_lines
 
+
 def create_striker(name, list):
     # Create the pymunk body
     body = pymunk.Body(STRIKER_MASS, pymunk.inf)
     if (name == "player"):
         x, y = SCREEN_WIDTH - (BLUE_LINE / 2), SCREEN_HEIGHT / 2
     else:
-        x, y = BLUE_LINE / 2, SCREEN_HEIGHT / 2
+        x, y = BLUE_LINE / 3, SCREEN_HEIGHT / 2
     body.position = (x, y)
 
     # Define pymunk shape attributes
@@ -71,6 +77,29 @@ def create_striker(name, list):
 
     # Add the striker to the respective sprite list
     sprite = CircleSprite("striker.png", shape)
+    list.append(sprite)
+
+    return body, shape
+
+
+def create_puck(list):
+    # Create the pymunk body
+    body = pymunk.Body(PUCK_MASS, pymunk.inf)
+    body.position = SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2
+
+    dx = randrange(-300, -100)
+    dy = randrange(-300, 300)
+    body.apply_impulse_at_local_point(pymunk.Vec2d(dx, dy))
+
+    shape = pymunk.Circle(body, PUCK_RADIUS)
+    shape.elasticity = 0.95
+    shape.collision_type = collision_types["puck"]
+
+    def constant_velocity(body, gravity, damping, dt):
+        body.velocity = body.velocity.normalized() * 700
+    body.velocity_func = constant_velocity
+
+    sprite = CircleSprite("puck.png", shape)
     list.append(sprite)
 
     return body, shape
