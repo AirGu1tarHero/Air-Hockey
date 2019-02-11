@@ -77,6 +77,7 @@ def create_striker(name, list):
     shape.collision_type = collision_types["striker"]
 
     # Add the striker to the respective sprite list
+    # Sprite provided by Lovecraft on OpenGameArt.org (https://opengameart.org/content/air-hockey)
     sprite = CircleSprite("striker.png", shape)
     list.append(sprite)
     return body, shape
@@ -102,6 +103,7 @@ def create_puck(list):
         body.velocity = body.velocity.normalized() * (SCREEN_WIDTH * 0.7)
     body.velocity_func = constant_velocity
 
+    # Sprite provided by Lovecraft on OpenGameArt.org (https://opengameart.org/content/air-hockey)
     sprite = CircleSprite("puck.png", shape)
     list.append(sprite)
     return body, shape
