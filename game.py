@@ -29,25 +29,29 @@ class Game(arcade.Window):
         self.set_mouse_visible(False)
         arcade.set_background_color(arcade.color.WHITE)
 
-        # Create the puck sprite list
-        self.puck_list = arcade.SpriteList()
-
-        # Create the striker sprite lists
-        self.player_striker_list = arcade.SpriteList()
-        self.npc_striker_list = arcade.SpriteList()
-
         # Initialize the physics space
         self.space = pymunk.Space()
         self.static_lines = physics_space_init(self.space)
         self.space.add(self.static_lines)
 
+        # Create the striker sprite lists
+        self.player_striker_list = arcade.SpriteList()
+        self.npc_striker_list = arcade.SpriteList()
+
+        # Set up the player
+        self.player_body, self.player_shape = create_striker("player", self.player_striker_list)
+        self.space.add(self.player_body, self.player_shape)
+
+        # Set up the NPC
+        self.npc_body, self.npc_shape = create_striker("npc", self.npc_striker_list)
+        self.space.add(self.npc_body, self.npc_shape)
+
+        # Create the puck sprite list
+        self.puck_list = arcade.SpriteList()
+
 
     def setup(self):
-        # Set up the player
-        self.player_shape, self.player_body = create_player()
-        self.space.add(self.player_body, self.player_shape)
-        player_sprite = CircleSprite("striker.png", self.player_shape)
-        self.player_striker_list.append(player_sprite)
+        pass
 
 
     def on_draw(self):
@@ -58,7 +62,7 @@ class Game(arcade.Window):
         draw_board()
 
         # Draw puck and strikers
-        # self.npc_striker_list.draw()
+        self.npc_striker_list.draw()
         self.player_striker_list.draw()
         # self.puck_list.draw()
 
@@ -84,8 +88,8 @@ class Game(arcade.Window):
 
     def on_mouse_motion(self, x, y, dx, dy):
         # Called whenver the mouse moves
-        if (x < SCREEN_WIDTH * 0.7):
-            x = SCREEN_WIDTH * 0.7
+        if (x < (SCREEN_WIDTH * 0.7) + STRIKER_RADIUS):
+            x = (SCREEN_WIDTH * 0.7) + STRIKER_RADIUS
         elif (x > SCREEN_WIDTH * 0.9):
             x = SCREEN_WIDTH * 0.9
 
@@ -102,8 +106,8 @@ class Game(arcade.Window):
 
     def on_mouse_press(self, x, y, button, key_modifiers):
         # Called when the user presses a mouse button
-        print(f"You clicked button number: {button}")
-        
+        pass
+
 
     def on_mouse_release(self, x, y, button, key_modifiers):
         # Called when the user releases a mouse button

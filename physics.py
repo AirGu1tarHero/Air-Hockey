@@ -1,9 +1,8 @@
 """
-Pymunk is a pythonic 2D physics library for processing 2D rigid body physics
-from Python.  It is built on top of the 2D physics library Chipmunk.
+Pymunk is a 2D physics library for processing 2D rigid body physics from Python.
+It is built on top of the 2D physics library Chipmunk.
 
-2007 - 2018, Victor Blomqvist - vb@viblo.se, MIT License
-www.pymunk.org
+2007 - 2018, Victor Blomqvist - vb@viblo.se, MIT License (www.pymunk.org)
 """
 
 import arcade
@@ -56,18 +55,25 @@ def physics_space_init(space):
         line.elasticity = 0.95
     return static_lines
 
-def create_player():
+def create_striker(name, list):
     # Create the pymunk body
-    player_body = pymunk.Body(STRIKER_MASS, pymunk.inf)
-    player_body.position = SCREEN_WIDTH - (BLUE_LINE / 2), SCREEN_HEIGHT / 2
+    body = pymunk.Body(STRIKER_MASS, pymunk.inf)
+    if (name == "player"):
+        x, y = SCREEN_WIDTH - (BLUE_LINE / 2), SCREEN_HEIGHT / 2
+    else:
+        x, y = BLUE_LINE / 2, SCREEN_HEIGHT / 2
+    body.position = (x, y)
 
     # Define pymunk shape attributes
-    player_shape = pymunk.Circle(player_body, STRIKER_RADIUS)
-    player_shape.elasticity = 0.9
-    player_shape.collision_type = collision_types["striker"]
+    shape = pymunk.Circle(body, STRIKER_RADIUS)
+    shape.elasticity = 0.9
+    shape.collision_type = collision_types["striker"]
 
-    # Add body/shape to physics space and return
-    return player_shape, player_body
+    # Add the striker to the respective sprite list
+    sprite = CircleSprite("striker.png", shape)
+    list.append(sprite)
+
+    return body, shape
 
 
 def move_sprite(list):
