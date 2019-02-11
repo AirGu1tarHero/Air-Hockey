@@ -7,6 +7,7 @@ It is built on top of the 2D physics library Chipmunk.
 
 import arcade
 import pymunk
+import math
 from graphics import *
 from random import randrange
 
